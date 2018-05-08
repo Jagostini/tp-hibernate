@@ -72,7 +72,7 @@ public class UserDaoTest {
         tweet2.setMessage("Test2");
         tweet2.setUser(user);
 
-        user.setTweets(Arrays.asList(tweet1,tweet2));
+        user.setTweets(Arrays.asList(tweet1, tweet2));
 
         long id = new UserDao().save(user);
         User u = new UserDao().get(id);
@@ -80,4 +80,25 @@ public class UserDaoTest {
         Assert.assertEquals(2, u.getTweets().size());
     }
 
+    @Test
+    public void deleteTweetByUser() {
+        User user = new User();
+        user.setFirstname("Benjamin");
+        user.setLastname("Tourman");
+        user.setEmail("test@gmail.com");
+        user.setBirthday(Date.valueOf(LocalDate.now().withYear(2000)));
+
+        Tweet tweet1 = new Tweet();
+        tweet1.setMessage("Test1");
+        tweet1.setUser(user);
+
+        user.setTweets(Arrays.asList(tweet1));
+
+        long id = new UserDao().save(user);
+        User u = new UserDao().get(id);
+        long tweetId = u.getTweets().get(0).getId();
+
+        new UserDao().delete(u);
+        Assert.assertNull(new TweetDao().get(tweetId));
+    }
 }

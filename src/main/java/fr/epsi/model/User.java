@@ -24,7 +24,7 @@ public class User implements Serializable {
     @Formula("(TIMESTAMPDIFF('YEAR',birthday,CURDATE()))")
     private int age;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
     private List<Tweet> tweets;
 
     public long getId() {
