@@ -4,6 +4,8 @@ import fr.epsi.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.persistence.PersistenceException;
+
 public class UserDaoTest {
 
     @Test
@@ -16,5 +18,21 @@ public class UserDaoTest {
 
         User u = new UserDao().get(id);
         Assert.assertEquals("Benjamin", u.getFirstname());
+    }
+
+    @Test(expected = PersistenceException.class)
+    public void uniqueEmail() {
+        User user1 = new User();
+        user1.setFirstname("Benjamin");
+        user1.setLastname("Tourman");
+        user1.setEmail("tourman.benjamin@gmail.com");
+
+        User user2 = new User();
+        user2.setFirstname("Test");
+        user2.setLastname("Test");
+        user2.setEmail("tourman.benjamin@gmail.com");
+
+        new UserDao().save(user1);
+        new UserDao().save(user2);
     }
 }
