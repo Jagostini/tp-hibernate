@@ -1,5 +1,6 @@
 package fr.epsi.dao;
 
+import fr.epsi.model.Admin;
 import fr.epsi.model.Tweet;
 import fr.epsi.model.User;
 import org.junit.Assert;
@@ -121,5 +122,21 @@ public class UserDaoTest {
         User u = new UserDao().get(id);
 
         Assert.assertEquals(1, u.getFollowers().size());
+    }
+
+    @Test
+    public void insertAdmin() {
+        Admin admin = new Admin();
+        admin.setFirstname("Benjamin");
+        admin.setLastname("Tourman");
+        admin.setEmail("test@gmail.com");
+        admin.setBirthday(Date.valueOf(LocalDate.now().withYear(2000)));
+        admin.setNickname("Ben");
+
+        long id = new AdminDao().save(admin);
+        Admin a = new AdminDao().get(id);
+
+        Assert.assertEquals("Ben", a.getNickname());
+        Assert.assertEquals(LocalDate.now().getYear() - 2000, a.getAge());
     }
 }
