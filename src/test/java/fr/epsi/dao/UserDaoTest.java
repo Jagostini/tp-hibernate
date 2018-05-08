@@ -139,4 +139,28 @@ public class UserDaoTest {
         Assert.assertEquals("Ben", a.getNickname());
         Assert.assertEquals(LocalDate.now().getYear() - 2000, a.getAge());
     }
+
+    @Test
+    public void searchTweet() {
+        User user = new User();
+        user.setFirstname("Benjamin");
+        user.setLastname("Tourman");
+        user.setEmail("test@gmail.com");
+        user.setBirthday(Date.valueOf(LocalDate.now().withYear(2000)));
+
+        Tweet tweet1 = new Tweet();
+        tweet1.setMessage("Premier test #test hashtag #marchebien");
+        tweet1.setUser(user);
+
+        Tweet tweet2 = new Tweet();
+        tweet2.setMessage("Je vais bien #test2");
+        tweet2.setUser(user);
+
+        user.setTweets(Arrays.asList(tweet1, tweet2));
+
+        new UserDao().save(user);
+
+        Assert.assertEquals(1, new TweetDao().searchByHashtag(Arrays.asList("test", "marchebien")).size());
+
+    }
 }
