@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.persistence.PersistenceException;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class UserDaoTest {
 
@@ -34,5 +36,21 @@ public class UserDaoTest {
 
         new UserDao().save(user1);
         new UserDao().save(user2);
+    }
+
+    @Test
+    public void ageAttribute() {
+        int year = 2000;
+
+        User user = new User();
+        user.setFirstname("Benjamin");
+        user.setLastname("Tourman");
+        user.setEmail("test@gmail.com");
+        user.setBirthday(Date.valueOf(LocalDate.now().withYear(year)));
+
+        long id = new UserDao().save(user);
+        User u = new UserDao().get(id);
+
+        Assert.assertEquals(LocalDate.now().getYear() - year, u.getAge());
     }
 }

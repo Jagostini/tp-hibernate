@@ -1,7 +1,10 @@
 package fr.epsi.model;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {
@@ -15,6 +18,9 @@ public class User implements Serializable {
     private String firstname;
     private String lastname;
     private String email;
+    private Date birthday;
+    @Formula("(TIMESTAMPDIFF('YEAR',birthday,CURDATE()))")
+    private int age;
 
     public long getId() {
         return id;
@@ -46,5 +52,17 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public int getAge() {
+        return age;
     }
 }
