@@ -15,6 +15,7 @@
         <property name="current_session_context_class">thread</property>
 
         <mapping class="fr.epsi.model.User"/>
+        <mapping class="fr.epsi.model.Tweet"/>
 
     </session-factory>
 </hibernate-configuration>

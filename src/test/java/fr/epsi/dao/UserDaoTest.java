@@ -1,5 +1,6 @@
 package fr.epsi.dao;
 
+import fr.epsi.model.Tweet;
 import fr.epsi.model.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import javax.persistence.PersistenceException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class UserDaoTest {
 
@@ -53,4 +55,29 @@ public class UserDaoTest {
 
         Assert.assertEquals(LocalDate.now().getYear() - year, u.getAge());
     }
+
+    @Test
+    public void insertTweets() {
+        User user = new User();
+        user.setFirstname("Benjamin");
+        user.setLastname("Tourman");
+        user.setEmail("test@gmail.com");
+        user.setBirthday(Date.valueOf(LocalDate.now().withYear(2000)));
+
+        Tweet tweet1 = new Tweet();
+        tweet1.setMessage("Test1");
+        tweet1.setUser(user);
+
+        Tweet tweet2 = new Tweet();
+        tweet2.setMessage("Test2");
+        tweet2.setUser(user);
+
+        user.setTweets(Arrays.asList(tweet1,tweet2));
+
+        long id = new UserDao().save(user);
+        User u = new UserDao().get(id);
+
+        Assert.assertEquals(2, u.getTweets().size());
+    }
+
 }

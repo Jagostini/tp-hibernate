@@ -1,10 +1,12 @@
 package fr.epsi.model;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {
@@ -21,6 +23,9 @@ public class User implements Serializable {
     private Date birthday;
     @Formula("(TIMESTAMPDIFF('YEAR',birthday,CURDATE()))")
     private int age;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    private List<Tweet> tweets;
 
     public long getId() {
         return id;
@@ -64,5 +69,13 @@ public class User implements Serializable {
 
     public int getAge() {
         return age;
+    }
+
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
     }
 }
