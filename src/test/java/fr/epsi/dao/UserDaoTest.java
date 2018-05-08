@@ -101,4 +101,25 @@ public class UserDaoTest {
         new UserDao().delete(u);
         Assert.assertNull(new TweetDao().get(tweetId));
     }
+
+    @Test
+    public void addFollowers() {
+        User user1 = new User();
+        user1.setFirstname("Benjamin");
+        user1.setLastname("Tourman");
+        user1.setEmail("test@gmail.com");
+        user1.setBirthday(Date.valueOf(LocalDate.now().withYear(2000)));
+
+        User user2 = new User();
+        user2.setFirstname("Benjamin");
+        user2.setLastname("Tourman");
+        user2.setEmail("tourman.benjamin@gmail.com");
+        user2.setBirthday(Date.valueOf(LocalDate.now().withYear(2000)));
+        user2.setFollowers(Arrays.asList(user1));
+
+        long id = new UserDao().save(user2);
+        User u = new UserDao().get(id);
+
+        Assert.assertEquals(1, u.getFollowers().size());
+    }
 }
